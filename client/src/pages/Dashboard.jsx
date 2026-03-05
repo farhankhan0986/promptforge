@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [prompts, setPrompts] = useState([]);
@@ -21,6 +21,7 @@ const Dashboard = () => {
       setPrompts(data);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to load prompts");
     }
   };
 

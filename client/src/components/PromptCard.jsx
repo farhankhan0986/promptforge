@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Copy, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 const PromptCard = ({ prompt, deletePrompt }) => {
   const [expanded, setExpanded] = useState(false);
@@ -70,7 +71,7 @@ const PromptCard = ({ prompt, deletePrompt }) => {
         <button
           onClick={() => {
             navigator.clipboard.writeText(prompt.improved_prompt);
-            alert("Prompt copied to clipboard!");
+            toast.success("Prompt copied to clipboard!");
           }}
           className="btn-secondary flex items-center gap-2 py-1.5 px-3"
         >

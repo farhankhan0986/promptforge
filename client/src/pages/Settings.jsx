@@ -2,6 +2,7 @@ import API from "../services/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 const Settings = () => {
   const [user, setUser] = useState({
@@ -28,35 +29,57 @@ const Settings = () => {
     }
   };
 
+  const confirmDeleteAllPrompts = () => {
+    toast("Delete all your prompts?", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Delete",
+        onClick: () => deleteAllPrompts(),
+      },
+      cancel: {
+        label: "Cancel",
+      },
+    })
+  }
+  const confirmDeleteAccount = () => {
+    toast("Do you want to delete your account?", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Delete",
+        onClick: () => deleteAccount(),
+      },
+      cancel: {
+        label: "Cancel",
+      },
+    })
+  }
+
+
   const deleteAllPrompts = async () => {
-    if (!window.confirm("Are you sure you want to delete all your prompts?"))
-      return;
     try {
       await API.delete("/prompts");
-      alert("All prompts deleted successfully");
+      toast.success("All prompts deleted successfully");
     } catch (error) {
       console.error("Error deleting prompts:", error);
-      alert("Failed to delete prompts");
+      toast.error("Failed to delete prompts");
     }
   };
 
   const deleteAccount = async () => {
-    if (!window.confirm("Are you sure you want to delete your account?"))
-      return;
     try {
       await API.delete("/auth/delete");
       localStorage.removeItem("token");
-      alert("Account deleted successfully");
+      toast.success("Account deleted successfully");
       navigate("/auth/login", { replace: true });
     } catch (error) {
       console.error("Error deleting account:", error);
-      alert("Failed to delete account");
+      toast.error("Failed to delete account");
     }
   };
 
   const changePassword = async () => {
     if (newPassword !== confirmPassword) {
-      return alert("New password and confirm password do not match");
+      return toast.error("New password and confirm password do not match");
     }
 
     try {
@@ -64,13 +87,13 @@ const Settings = () => {
         currentPassword,
         newPassword,
       });
-      alert("Password updated successfully");
+      toast.success("Password updated successfully");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
       console.error("Error changing password:", error);
-      alert(error.response?.data?.message || "Failed to change password");
+      toast.error(error.response?.data?.message || "Failed to change password");
     }
   };
 
@@ -194,7 +217,7 @@ const Settings = () => {
                   This action cannot be undone
                 </p>
               </div>
-              <button onClick={deleteAllPrompts} className="btn-danger">
+              <button onClick={confirmDeleteAllPrompts} className="btn-danger">
                 <span className="font-mono text-xs">delete all</span>
               </button>
             </div>
@@ -206,7 +229,7 @@ const Settings = () => {
                   Permanently remove your account and data
                 </p>
               </div>
-              <button onClick={deleteAccount} className="btn-danger">
+              <button onClick={confirmDeleteAccount} className="btn-danger">
                 <span className="font-mono text-xs">delete account</span>
               </button>
             </div>

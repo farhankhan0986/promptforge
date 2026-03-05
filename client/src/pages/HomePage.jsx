@@ -1,5 +1,6 @@
 import ChatArea from "../components/ChatArea";
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
 
 const HomePage = () => {
   return (
