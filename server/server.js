@@ -10,8 +10,27 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  'https://promptforge-blush.vercel.app',
+  'https://promptforge-8oxq88d5r-farhans-projects-2e3c1fc4.vercel.app',
+  // Or use a pattern to allow ALL your Vercel preview deployments:
+];
+
 app.use(cors({
-  origin: 'https://promptforge-blush.vercel.app' // ✅ no trailing slash
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app') // ← allows ALL vercel preview URLs
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
