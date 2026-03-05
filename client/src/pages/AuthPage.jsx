@@ -37,47 +37,68 @@ function AuthPage() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-background text-textdark">
-      <div className="bg-surface p-10 rounded-lg w-80 text-center shadow-lg">
-        <h2 className="text-xl font-semibold mb-4 text-sidebar">
+    <div className="min-h-screen flex justify-center items-center bg-background text-textdark animate-fade-in">
+      {/* Auth container — typography-driven, minimal */}
+      <div className="w-80">
+        {/* Editorial heading */}
+        <h2 className="text-editorial-lg text-textdark mb-1">
           {isLogin ? "Login" : "Register"}
         </h2>
+        <div className="w-8 h-0.5 bg-primary mb-8" />
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {!isLogin && (
-            <input
-              name="name"
-              placeholder="Name"
-              onChange={handleChange}
-              required
-              className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+            <div>
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                Name
+              </label>
+              <input
+                name="name"
+                placeholder="Your name"
+                onChange={handleChange}
+                required
+                className="input-forge"
+              />
+            </div>
           )}
 
-          <input
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-            className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <div>
+            <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+              Email
+            </label>
+            <input
+              name="email"
+              placeholder="you@example.com"
+              onChange={handleChange}
+              required
+              className="input-forge"
+            />
+          </div>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <div>
+            <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+              Password
+            </label>
+            <input
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              onChange={handleChange}
+              required
+              className="input-forge"
+            />
+          </div>
 
-          <button className="w-full p-2.5 mt-2.5 rounded-md border-none bg-primary hover:bg-sidebar text-white cursor-pointer transition-colors font-medium">
-            {isLogin ? "Login" : "Register"}
+          <button className="btn-primary w-full mt-2">
+            <span className="font-mono text-xs">
+              {isLogin ? "login →" : "register →"}
+            </span>
           </button>
         </form>
 
         <p
-          className="mt-4 cursor-pointer text-sm text-primary hover:text-sidebar transition-colors"
+          className="mt-6 cursor-pointer font-mono text-xs text-primary
+            hover:text-textdark transition-colors duration-200 hover-underline inline-block"
           onClick={() => setIsLogin(!isLogin)}
         >
           {isLogin
