@@ -290,9 +290,13 @@ This project is open source and available under the ISC License.
 
 ## 👤 Author
 
-Farhan Abid  
+Name: Farhan Abid
+
+
+Email: farhankhan080304@gmail.com 
 
 GitHub: `@farhankhan0986`
+
 
 <div align="center">
 If you found this project helpful, please consider giving it a ⭐
