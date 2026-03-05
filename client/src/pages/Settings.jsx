@@ -80,6 +80,10 @@ const Settings = () => {
       <h1 className="text-editorial-lg text-textdark mb-2">Settings</h1>
       <div className="w-12 h-0.5 bg-primary mb-10" />
 
+      {!user.name && !user.email && (
+        <p className="font-mono text-sm text-textdark/50 mb-6">Loading user settings...</p>
+      )}
+
       <div className="max-w-lg space-y-12">
         {/* Account info section */}
         <section>

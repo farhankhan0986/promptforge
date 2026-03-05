@@ -78,7 +78,8 @@ function ChatArea() {
           <button
             onClick={generatePrompt}
             disabled={loading}
-            className="btn-primary flex items-center gap-2"
+            className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-busy={loading}
           >
             <span className="font-mono text-xs">
               {loading ? "generating..." : "generate →"}

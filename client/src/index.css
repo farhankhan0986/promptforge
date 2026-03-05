@@ -319,3 +319,27 @@ h1, h2, h3, h4, h5, h6 {
   color: #CBCBCB;
   font-size: 0.75rem;
 }
+
+/* --- Accessibility: respect reduced-motion preferences --- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-in-left,
+  .animate-slide-in-up,
+  .animate-scroll-bounce,
+  .typing-line,
+  .typing-line-delayed {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    width: auto;
+    border-right: none;
+  }
+
+  .hover-lift:hover {
+    transform: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -69,6 +69,10 @@ const HomePage = () => {
         <div className="flex justify-center pb-8 animate-scroll-bounce">
           <a
             href="#workspace"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("workspace")?.scrollIntoView({ behavior: "smooth" });
+            }}
             className="text-primary/40 hover:text-primary transition-colors duration-200"
             aria-label="Scroll to workspace"
           >
