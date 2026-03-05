@@ -73,89 +73,137 @@ const Settings = () => {
   useEffect(() => {
     fetchUser();
   }, [location]); // Refetch user data when the location changes (e.g., after password change)
+
   return (
-    <div>
-      <div className="flex-1 bg-[#FFFFE3] p-8 overflow-auto">
-        {user ? (
-          <div className="bg-[#CBCBCB] p-4 rounded shadow mb-8 max-w-3xl">
-            <h2 className="text-2xl font-bold mb-4">User Settings</h2>
+    <div className="flex-1 bg-background px-8 lg:px-16 py-12 overflow-auto animate-fade-in">
+      {/* Page header */}
+      <h1 className="text-editorial-lg text-textdark mb-2">Settings</h1>
+      <div className="w-12 h-0.5 bg-primary mb-10" />
+
+      <div className="max-w-lg space-y-12">
+        {/* Account info section */}
+        <section>
+          <h2 className="font-display text-lg font-semibold text-textdark mb-1">
+            Account
+          </h2>
+          <div className="w-8 h-px bg-primary mb-5" />
+
+          <div className="space-y-3">
+            <div className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider w-20 shrink-0">
+                Name
+              </span>
+              <span className="font-mono text-sm text-textdark">{user.name}</span>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider w-20 shrink-0">
+                Email
+              </span>
+              <span className="font-mono text-sm text-textdark">{user.email}</span>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider w-20 shrink-0">
+                Password
+              </span>
+              <span className="font-mono text-sm text-textdark/40">••••••••</span>
+            </div>
+            <div className="flex items-baseline gap-4">
+              <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider w-20 shrink-0">
+                Since
+              </span>
+              <span className="font-mono text-sm text-textdark">
+                {new Date(user.created_at).toLocaleDateString()}
+              </span>
+            </div>
           </div>
-        ) : (
-          <p>Loading user settings...</p>
-        )}
+        </section>
 
-        <div className="bg-[#CBCBCB] p-6 rounded shadow mb-6">
-          <h2 className="text-xl font-semibold mb-3 text-[#4A4A4A]">Account</h2>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <div className="flex gap-2 ">
-            Password:<p className="text-[#4A4A4A] relative top-1"> ******** </p>
+        {/* Change Password section */}
+        <section>
+          <h2 className="font-display text-lg font-semibold text-textdark mb-1">
+            Change Password
+          </h2>
+          <div className="w-8 h-px bg-primary mb-5" />
+
+          <div className="space-y-4">
+            <div>
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                Current Password
+              </label>
+              <input
+                type="password"
+                placeholder="Current password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="input-forge"
+              />
+            </div>
+
+            <div>
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                New Password
+              </label>
+              <input
+                type="password"
+                placeholder="New password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="input-forge"
+              />
+            </div>
+
+            <div>
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                placeholder="Confirm new password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="input-forge"
+              />
+            </div>
+
+            <button onClick={changePassword} className="btn-primary w-full mt-2">
+              <span className="font-mono text-xs">update password</span>
+            </button>
           </div>
-          <p>Member since: {new Date(user.created_at).toLocaleDateString()}</p>
-        </div>
-      </div>
+        </section>
 
-      <div className="bg-[#CBCBCB] p-4 ml-8 rounded shadow mb-8 w-[300px]">
-        <h2 className="text-xl font-semibold mb-3 text-[#4A4A4A]">
-          Change Password
-        </h2>
+        {/* Danger zone — destructive actions */}
+        <section>
+          <h2 className="font-display text-lg font-semibold text-textdark mb-1">
+            Danger Zone
+          </h2>
+          <div className="w-8 h-px bg-primary mb-5" />
 
-        <label>Current Password</label>
-        <input
-          type="password"
-          placeholder="Current password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
+          <div className="space-y-4">
+            <div className="flex items-center justify-between py-3 border-b border-surface">
+              <div>
+                <p className="font-mono text-sm text-textdark">Delete All Prompts</p>
+                <p className="font-mono text-xs text-textdark/40 mt-0.5">
+                  This action cannot be undone
+                </p>
+              </div>
+              <button onClick={deleteAllPrompts} className="btn-danger">
+                <span className="font-mono text-xs">delete all</span>
+              </button>
+            </div>
 
-        <label>New Password</label>
-        <input
-          type="password"
-          placeholder="New password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-
-        <label>Confirm New Password</label>
-        <input
-          type="password"
-          placeholder="Confirm new password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-2.5 my-2.5 rounded-md border border-primary bg-background text-textdark placeholder-primary/60 focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-
-        <button
-          onClick={changePassword}
-          className="w-full p-2.5 mt-2.5 rounded-md border-none bg-primary hover:bg-sidebar text-white cursor-pointer transition-colors font-medium"
-        >
-          Update Password
-        </button>
-      </div>
-
-      <div className="bg-[#CBCBCB] p-4 ml-8 rounded shadow mb-8 w-[300px]">
-        <h2 className="text-xl font-semibold mb-3 text-[#4A4A4A]">
-          Delete All Prompts
-        </h2>
-        <button
-          onClick={deleteAllPrompts}
-          className="w-full p-2.5 mt-2.5 rounded-md border-none bg-red-600 hover:bg-red-700 text-white cursor-pointer transition-colors font-medium"
-        >
-          Delete All Prompts
-        </button>
-      </div>
-      <div className="bg-[#CBCBCB] p-4 ml-8 rounded shadow mb-8 w-[300px]">
-        <h2 className="text-xl font-semibold mb-3 text-[#4A4A4A]">
-          Delete Account
-        </h2>
-        <button
-          onClick={deleteAccount}
-          className="w-full p-2.5 mt-2.5 rounded-md border-none bg-red-600 hover:bg-red-700 text-white cursor-pointer transition-colors font-medium"
-        >
-          Delete Account
-        </button>
+            <div className="flex items-center justify-between py-3">
+              <div>
+                <p className="font-mono text-sm text-textdark">Delete Account</p>
+                <p className="font-mono text-xs text-textdark/40 mt-0.5">
+                  Permanently remove your account and data
+                </p>
+              </div>
+              <button onClick={deleteAccount} className="btn-danger">
+                <span className="font-mono text-xs">delete account</span>
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

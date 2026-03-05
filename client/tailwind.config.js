@@ -5,15 +5,19 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-  extend: {
-    colors: {
-      primary: "#6D8196",
-      sidebar: "#4A4A4A",
-      surface: "#CBCBCB",
-      background: "#FFFFE3",
-      textdark: "#4A4A4A"
-    }
-  }
-},
+    extend: {
+      colors: {
+        primary: "#6D8196",
+        sidebar: "#4A4A4A",
+        surface: "#CBCBCB",
+        background: "#FFFFE3",
+        textdark: "#4A4A4A",
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
+      },
+    },
+  },
   plugins: [],
 }

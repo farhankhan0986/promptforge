@@ -12,68 +12,77 @@ const PromptCard = ({ prompt, deletePrompt }) => {
     : prompt.improved_prompt.slice(0, PREVIEW_LENGTH) + (isLong ? "..." : "");
 
   return (
-    <div className="bg-surface p-5 rounded-lg shadow transition-all duration-300">
-      {/* Header */}
+    /* Typography-driven layout — thin border-bottom separator instead of card shadows */
+    <div className="border-b border-surface py-6 transition-all duration-200 animate-fade-in">
+      {/* Header row */}
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-lg font-semibold text-textdark">
+          <h2 className="font-display text-lg font-semibold text-textdark">
             {prompt.title}
           </h2>
-          <p className="text-sm text-textdark/70 mt-1">
-            Category: {prompt.category}
-          </p>
-          <p className="text-sm text-textdark/70">
-            Tags: {prompt.tags}
-          </p>
+          {/* Metadata in monospaced small type */}
+          <div className="flex gap-4 mt-1.5">
+            <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider">
+              {prompt.category}
+            </span>
+            <span className="font-mono text-xs text-primary/60">
+              {prompt.tags}
+            </span>
+          </div>
         </div>
 
         {isLong && (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="text-primary hover:text-sidebar transition-colors p-1"
+            className="text-primary hover:text-textdark transition-colors duration-200 p-1"
             title={expanded ? "Collapse" : "Expand"}
           >
-            {expanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         )}
       </div>
 
-      {/* Prompt Content */}
+      {/* Prompt content — monospaced text with left border accent */}
       <div
-        className={`mt-3 text-textdark whitespace-pre-wrap overflow-hidden transition-all duration-300
+        className={`mt-4 overflow-hidden transition-all duration-300
           ${expanded ? "max-h-[2000px]" : "max-h-28"}`}
       >
-        <p>{displayText}</p>
+        <div className="border-l-2 border-surface pl-4">
+          <p className="font-mono text-sm leading-relaxed text-textdark/80 whitespace-pre-wrap">
+            {displayText}
+          </p>
+        </div>
       </div>
 
-      {/* Expand/Collapse Text Toggle */}
+      {/* Expand/collapse text toggle */}
       {isLong && (
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-sm text-primary hover:text-sidebar mt-2 transition-colors font-medium"
+          className="font-mono text-xs text-primary hover:text-textdark mt-2
+            transition-colors duration-200 hover-underline"
         >
-          {expanded ? "Show less" : "Show more"}
+          {expanded ? "show less" : "show more"}
         </button>
       )}
 
-      {/* Actions */}
-      <div className="flex justify-start mt-4 gap-4">
+      {/* Actions — sharp buttons */}
+      <div className="flex gap-3 mt-4">
         <button
           onClick={() => {
             navigator.clipboard.writeText(prompt.improved_prompt);
             alert("Prompt copied to clipboard!");
           }}
-          className="bg-sidebar text-white px-4 py-2 rounded hover:bg-textdark/80 transition-colors flex items-center gap-2"
+          className="btn-secondary flex items-center gap-2 py-1.5 px-3"
         >
-          <Copy size={16} />
-          Copy
+          <Copy size={14} />
+          <span className="font-mono text-xs">copy</span>
         </button>
         <button
           onClick={() => deletePrompt(prompt.id)}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors flex items-center gap-2"
+          className="btn-danger flex items-center gap-2 py-1.5 px-3"
         >
-          <Trash2 size={16} />
-          Delete
+          <Trash2 size={14} />
+          <span className="font-mono text-xs">delete</span>
         </button>
       </div>
     </div>

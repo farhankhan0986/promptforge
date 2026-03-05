@@ -44,94 +44,121 @@ function ChatArea() {
   };
 
   return (
-    <div className="flex-1 bg-[#FFFFE3] p-8 flex flex-col items-center overflow-auto">
-      {/* Page Title */}
-      <h1 className="text-3xl font-bold text-[#4A4A4A] mb-6">
-        Prompt Generator
-      </h1>
+    <div className="flex-1 bg-background px-8 lg:px-16 py-12 flex flex-col animate-fade-in">
+      {/* Section header — editorial typography */}
+      <div className="mb-10">
+        <h1 className="text-editorial-lg text-textdark">Prompt Generator</h1>
+        <div className="w-12 h-0.5 bg-primary mt-3" />
+      </div>
 
-      {/* Prompt Input */}
-      <div className="bg-[#CBCBCB] p-6 rounded-lg shadow-md w-[600px]">
-        <textarea
-          placeholder="Describe the prompt you want..."
-          value={idea}
-          onChange={(e) => setIdea(e.target.value)}
-          className="w-full p-3 rounded border border-gray-400 focus:outline-none resize-none"
-          rows="6"
-        />
-        <div className="flex justify-center">
+      {/* Input area — typewriter/code-editor aesthetic */}
+      <div className="max-w-2xl w-full">
+        {/* Simulated editor header */}
+        <div className="flex items-center gap-2 px-5 py-2.5 border border-b-0 border-surface bg-surface/20"
+          style={{ borderRadius: "2px 2px 0 0" }}>
+          <span className="font-mono text-xs text-textdark/40 uppercase tracking-wider">
+            input.prompt
+          </span>
+        </div>
+
+        {/* Textarea with line-number gutter feel */}
+        <div className="relative border border-surface" style={{ borderRadius: "0 0 2px 2px" }}>
+          {/* Gutter stripe — visual cue for code-editor feel */}
+          <div className="absolute left-0 top-0 bottom-0 w-10 bg-surface/15 border-r border-surface/30" />
+          <textarea
+            placeholder="Describe the prompt you want..."
+            value={idea}
+            onChange={(e) => setIdea(e.target.value)}
+            className="textarea-forge w-full pl-14 pr-5"
+            rows="8"
+          />
+        </div>
+
+        <div className="flex justify-start mt-5">
           <button
             onClick={generatePrompt}
-            className="mt-4 bg-[#6D8196] text-white px-6 py-2 flex justify-center rounded hover:opacity-90"
+            disabled={loading}
+            className="btn-primary flex items-center gap-2"
           >
-            {loading ? "Generating..." : "Generate Prompt"}
+            <span className="font-mono text-xs">
+              {loading ? "generating..." : "generate →"}
+            </span>
           </button>
         </div>
       </div>
 
-      {/* Generated Prompt */}
+      {/* Generated Prompt — editorial manuscript output */}
       {prompt && (
-        <div className="bg-[#CBCBCB] p-6 rounded-lg shadow-md w-[600px] mt-6">
-          <h2 className="text-xl font-semibold text-[#4A4A4A] mb-3">
-            Generated Prompt
-          </h2>
+        <div className="max-w-2xl w-full mt-14 animate-slide-in-up">
+          {/* Output header */}
+          <div className="flex items-center gap-3 mb-4">
+            <h2 className="text-editorial-md text-textdark">Generated Prompt</h2>
+            <div className="flex-1 h-px bg-surface" />
+          </div>
 
-          <p className="whitespace-pre-wrap text-[#4A4A4A]">{prompt}</p>
+          {/* Manuscript-style output — monospaced, with left border accent */}
+          <div className="border-l-2 border-primary pl-6 py-4">
+            <p className="font-mono text-sm leading-relaxed text-textdark whitespace-pre-wrap">
+              {prompt}
+            </p>
+          </div>
 
-          <div className="flex flex-col gap-3 mt-6">
-            <div className="flex justify-center gap-10">
-              <div className="mb-4">
-                <label className="block text-[#4A4A4A] mb-1">Category</label>
-
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full p-2 rounded border border-gray-400"
-                >
-                  <option>General</option>
-                  <option>Education</option>
-                  <option>Health</option>
-                  <option>Business</option>
-                  <option>Creative</option>
-                  <option>Technology</option>
-                  <option>Lifestyle</option>
-                  <option>Career</option>
-                  <option>Finance</option>
-                  <option>Entertainment</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-[#4A4A4A] mb-1">Tags</label>
-
-                <input
-                  type="text"
-                  placeholder="example: roadmap, react"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  className="w-full p-2 rounded border border-gray-400"
-                />
-              </div>
+          {/* Metadata inputs — category and tags */}
+          <div className="flex flex-col sm:flex-row gap-6 mt-8">
+            <div className="flex-1">
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                Category
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="select-forge w-full"
+              >
+                <option>General</option>
+                <option>Education</option>
+                <option>Health</option>
+                <option>Business</option>
+                <option>Creative</option>
+                <option>Technology</option>
+                <option>Lifestyle</option>
+                <option>Career</option>
+                <option>Finance</option>
+                <option>Entertainment</option>
+                <option>Other</option>
+              </select>
             </div>
 
-            <div className="flex justify-center gap-10">
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(prompt);
-                  alert("Prompt copied to clipboard!");
-                }}
-                className="bg-[#4A4A4A] text-white px-4 py-2 rounded hover:opacity-90"
-              >
-                Copy
-              </button>
-              <button
-                onClick={savePrompt}
-                className="bg-[#6D8196] text-white px-4 py-2 rounded hover:opacity-90"
-              >
-                Save Prompt
-              </button>
+            <div className="flex-1">
+              <label className="font-mono text-xs text-textdark/50 uppercase tracking-wider block mb-2">
+                Tags
+              </label>
+              <input
+                type="text"
+                placeholder="roadmap, react"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="input-forge"
+              />
             </div>
+          </div>
+
+          {/* Action buttons — sharp, purposeful */}
+          <div className="flex gap-4 mt-8">
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(prompt);
+                alert("Prompt copied to clipboard!");
+              }}
+              className="btn-secondary"
+            >
+              <span className="font-mono text-xs">copy</span>
+            </button>
+            <button
+              onClick={savePrompt}
+              className="btn-primary"
+            >
+              <span className="font-mono text-xs">save prompt</span>
+            </button>
           </div>
         </div>
       )}

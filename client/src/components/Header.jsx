@@ -2,8 +2,11 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className=" bg-slate-800 p-4">
-      <h1 className="text-2xl text-indigo-500 font-bold">PromptForge</h1>
+    /* Minimal header bar — typography only, no heavy backgrounds */
+    <div className="border-b border-surface/50 px-8 py-4">
+      <h1 className="font-display text-lg font-semibold text-textdark tracking-tight">
+        Prompt<span className="text-primary">Forge</span>
+      </h1>
     </div>
   )
 }

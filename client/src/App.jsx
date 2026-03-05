@@ -8,7 +8,7 @@ import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
-    <div className="bg-[#FFFFE3] min-h-screen">
+    <div className="bg-background min-h-screen font-mono text-textdark">
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>

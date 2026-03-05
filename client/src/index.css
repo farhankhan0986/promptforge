@@ -1,3 +1,321 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================================
+   PromptForge Design System
+   Personality: "A writer's precision instrument"
+   Fonts: Space Grotesk (display) + IBM Plex Mono (body/prompts)
+   ============================================================ */
+
+/* --- Base typography --- */
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: #FFFFE3;
+  color: #4A4A4A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* --- Dramatic typography scale --- */
+.text-editorial-xl {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.text-editorial-lg {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-editorial-md {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Monospaced body text for that typewriter feel */
+.text-mono-body {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* --- Custom button component: sharp, purposeful --- */
+@layer components {
+  .btn-primary {
+    @apply font-mono text-sm tracking-wide px-6 py-2.5
+           bg-primary text-white border-none cursor-pointer
+           transition-all duration-200 ease-out;
+    /* Sharp corners — no border-radius, intentional decision */
+    border-radius: 2px;
+  }
+  .btn-primary:hover {
+    @apply bg-sidebar;
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    @apply font-mono text-sm tracking-wide px-6 py-2.5
+           bg-sidebar text-white border-none cursor-pointer
+           transition-all duration-200 ease-out;
+    border-radius: 2px;
+  }
+  .btn-secondary:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  .btn-danger {
+    @apply font-mono text-sm tracking-wide px-6 py-2.5
+           bg-textdark text-white border-none cursor-pointer
+           transition-all duration-200 ease-out;
+    border-radius: 2px;
+    background-color: #8B4049;
+  }
+  .btn-danger:hover {
+    background-color: #6E3038;
+    transform: translateY(-1px);
+  }
+
+  /* --- Custom input: typewriter aesthetic --- */
+  .input-forge {
+    @apply w-full py-2.5 px-3 font-mono text-sm
+           text-textdark bg-background
+           border-b-2 border-surface
+           transition-all duration-200 ease-out;
+    border-radius: 0;
+    outline: none;
+    /* No top/side borders — underline only, like a form field on fine stationery */
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .input-forge:focus {
+    border-bottom-color: #6D8196;
+  }
+  .input-forge::placeholder {
+    color: #6D8196;
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  /* --- Custom textarea: code-editor / typewriter feel --- */
+  .textarea-forge {
+    @apply w-full py-4 px-5 font-mono text-sm leading-relaxed
+           text-textdark bg-background
+           border border-surface
+           transition-all duration-200 ease-out resize-none;
+    border-radius: 2px;
+    outline: none;
+  }
+  .textarea-forge:focus {
+    border-color: #6D8196;
+  }
+  .textarea-forge::placeholder {
+    color: #6D8196;
+    opacity: 0.4;
+    font-style: italic;
+  }
+
+  /* --- Custom select --- */
+  .select-forge {
+    @apply font-mono text-sm py-2 px-3
+           text-textdark bg-background
+           border-b-2 border-surface
+           transition-all duration-200 ease-out cursor-pointer;
+    border-radius: 0;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    appearance: none;
+    /* Custom dropdown arrow using SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236D8196' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+  }
+  .select-forge:focus {
+    border-bottom-color: #6D8196;
+  }
+}
+
+/* --- CSS Keyframe Animations --- */
+
+/* Typing cursor effect for hero prompt preview */
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Typing text reveal */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Fade-in for page transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-in from left for sidebar items */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide-in from bottom for content */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll indicator bounce */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out both;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.5s ease-out both;
+}
+
+.animate-scroll-bounce {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* Staggered fade-in for lists */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+
+/* --- Typing animation for hero section --- */
+.typing-line {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #6D8196;
+  animation: typing 2.5s steps(30) forwards, typing-cursor 0.8s step-end infinite;
+}
+
+.typing-line-delayed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid #6D8196;
+  animation: typing 2s steps(24) 2.8s forwards, typing-cursor 0.8s step-end 2.8s infinite;
+}
+
+/* --- Custom scrollbar: thin, purposeful --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFFFE3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBCBCB;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6D8196;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CBCBCB #FFFFE3;
+}
+
+/* --- Micro-interaction transitions --- */
+.hover-lift {
+  transition: transform 0.2s ease-out;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Underline reveal on hover — editorial link style */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #6D8196;
+  transition: width 0.3s ease-out;
+}
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+/* Line-number gutter styling for textarea areas */
+.gutter-line {
+  counter-reset: line;
+}
+.gutter-line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2em;
+  text-align: right;
+  margin-right: 1em;
+  color: #CBCBCB;
+  font-size: 0.75rem;
+}
