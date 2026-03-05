@@ -13,7 +13,7 @@ const app = express();
 const allowedOrigins = [
   'https://promptforge-blush.vercel.app',
   'https://promptforge-8oxq88d5r-farhans-projects-2e3c1fc4.vercel.app',
-  // Or use a pattern to allow ALL your Vercel preview deployments:
+  'http://localhost:5173'
 ];
 
 app.use(cors({

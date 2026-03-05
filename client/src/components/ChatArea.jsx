@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import { toast } from "sonner";
 
 function ChatArea() {
   const [idea, setIdea] = useState("");
@@ -21,7 +22,7 @@ function ChatArea() {
       setPrompt(data.improved);
     } catch (error) {
       console.error(error);
-      alert("Failed to generate prompt");
+      toast.error("Failed to generate prompt");
     } finally {
       setLoading(false);
     }
@@ -36,10 +37,10 @@ function ChatArea() {
         tags: tags || "generated",
       });
 
-      alert("Prompt saved successfully");
+      toast.success("Prompt saved successfully");
     } catch (error) {
       console.error(error);
-      alert("Failed to save prompt");
+      toast.error("Failed to save prompt");
     }
   };
 

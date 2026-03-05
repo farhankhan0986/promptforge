@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { toast } from "sonner";
 
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,11 +29,11 @@ function AuthPage() {
         localStorage.setItem("token", data.token);
         navigate("/dashboard");
       } else {
-        alert("Registration successful. Please login.");
+        toast.success("Registration successful. Please login.");
         setIsLogin(true);
       }
     } catch (err) {
-      alert(err.response?.data?.message || "Something went wrong");
+      toast.error(err.response?.data?.message || "Something went wrong");
     }
   };
 

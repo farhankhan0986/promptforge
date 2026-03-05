@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import { Search } from "lucide-react";
 import PromptCard from "../components/PromptCard";
+import { toast } from "sonner";
 
 const Chats = () => {
   const [prompts, setPrompts] = useState([]);
@@ -21,7 +22,7 @@ const Chats = () => {
       setPrompts(data);
     } catch (error) {
       console.error(error);
-      alert("Failed to load prompts");
+      toast.error("Failed to load prompts");
     } finally {
       setLoading(false);
     }
@@ -31,14 +32,29 @@ const Chats = () => {
     fetchPrompts();
   }, []);
 
+  const confirmDelete = (id) => {
+    toast("Delete this prompt?", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Delete",
+        onClick: () => deletePrompt(id),
+      },
+      cancel: {
+        label: "Cancel",
+      },
+    });
+  };
+
   const deletePrompt = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this prompt?")) return;
     try {
       await API.delete(`/prompts/${id}`);
-      fetchPrompts(); // Refresh the list of prompts
+
+      toast.success("Prompt deleted");
+
+      fetchPrompts();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete prompt");
+      toast.error("Failed to delete prompt");
     }
   };
 
@@ -49,8 +65,10 @@ const Chats = () => {
       <div className="w-12 h-0.5 bg-primary mb-8" />
 
       {/* Search input — custom styled, underline only */}
-      <div className="flex items-center max-w-md mb-8 border-b-2 border-surface
-        focus-within:border-primary transition-colors duration-200">
+      <div
+        className="flex items-center max-w-md mb-8 border-b-2 border-surface
+        focus-within:border-primary transition-colors duration-200"
+      >
         <Search size={16} className="text-primary/40 mr-3 shrink-0" />
         <input
           type="text"
@@ -71,7 +89,7 @@ const Chats = () => {
           <PromptCard
             key={prompt.id}
             prompt={prompt}
-            deletePrompt={deletePrompt}
+            deletePrompt={confirmDelete}
           />
         ))}
         {!loading && filteredPrompts.length === 0 && (
