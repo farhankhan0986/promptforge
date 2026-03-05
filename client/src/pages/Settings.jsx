@@ -9,6 +9,7 @@ const Settings = () => {
     email: "",
     created_at: "",
   });
+  const [userLoading, setUserLoading] = useState(true);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,10 +18,13 @@ const Settings = () => {
   const location = useLocation();
   const fetchUser = async () => {
     try {
+      setUserLoading(true);
       const { data } = await API.get("auth/me");
       setUser(data);
     } catch (error) {
       console.error("Error fetching user:", error);
+    } finally {
+      setUserLoading(false);
     }
   };
 
@@ -80,7 +84,7 @@ const Settings = () => {
       <h1 className="text-editorial-lg text-textdark mb-2">Settings</h1>
       <div className="w-12 h-0.5 bg-primary mb-10" />
 
-      {!user.name && !user.email && (
+      {userLoading && (
         <p className="font-mono text-sm text-textdark/50 mb-6">Loading user settings...</p>
       )}
 

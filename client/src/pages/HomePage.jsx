@@ -71,7 +71,11 @@ const HomePage = () => {
             href="#workspace"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("workspace")?.scrollIntoView({ behavior: "smooth" });
+              /* Respect prefers-reduced-motion: use instant scroll if user prefers reduced motion */
+              const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+              document.getElementById("workspace")?.scrollIntoView({
+                behavior: prefersReducedMotion ? "instant" : "smooth",
+              });
             }}
             className="text-primary/40 hover:text-primary transition-colors duration-200"
             aria-label="Scroll to workspace"
