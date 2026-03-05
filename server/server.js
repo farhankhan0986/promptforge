@@ -10,8 +10,26 @@ dotenv.config();
 
 const app = express();
 
+// CORS: Allow the production Vercel domain and any Vercel preview deployments.
+// Set CORS_ORIGIN env var to override the production URL if needed.
+const allowedOrigin = process.env.CORS_ORIGIN || 'https://promptforge-blush.vercel.app';
 app.use(cors({
-  origin: 'https://promptforge-blush.vercel.app' // ✅ no trailing slash
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g. server-to-server, curl, mobile apps)
+    if (!origin) return callback(null, true);
+    // Allow the exact production origin (or env-configured origin)
+    if (origin === allowedOrigin) return callback(null, true);
+    // Allow any Vercel preview deployment for this project
+    // Matches: promptforge-<hash>-<project>.vercel.app
+    if (/^https:\/\/promptforge(-[a-z0-9]+)+\.vercel\.app$/.test(origin)) {
+      return callback(null, true);
+    }
+    // Allow localhost only in non-production environments
+    if (process.env.NODE_ENV !== 'production' && /^http:\/\/localhost:\d+$/.test(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  }
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
