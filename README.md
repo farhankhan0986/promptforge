@@ -53,6 +53,7 @@ Beyond generation, PromptForge lets you **save**, **organize by category and tag
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 | Technology | Purpose |
 |-----------|---------|
 | [React 19](https://react.dev) | UI library |
@@ -65,6 +66,7 @@ Beyond generation, PromptForge lets you **save**, **organize by category and tag
 | [Axios](https://axios-http.com) | HTTP client |
 
 ### Backend
+
 | Technology | Purpose |
 |-----------|---------|
 | [Node.js](https://nodejs.org) | Runtime environment |
@@ -79,9 +81,53 @@ Beyond generation, PromptForge lets you **save**, **organize by category and tag
 
 ## 📁 Project Structure
 
-promptforge/ ├── client/ # React frontend │ ├── public/ # Static assets │ ├── src/ │ │ ├── assets/ # Images & media │ │ ├── components/ # Reusable UI components │ │ │ ├── ChatArea.jsx # Prompt generation workspace │ │ │ └── PromptCard.jsx # Saved prompt display card │ │ ├── context/ # React context providers │ │ ├── layouts/ # Page layout wrappers │ │ │ └── MainLayout.jsx # Main app layout with navigation │ │ ├── pages/ │ │ │ ├── HomePage.jsx # Landing page with hero section │ │ │ ├── AuthPage.jsx # Login / Register page │ │ │ ├── Dashboard.jsx # Analytics dashboard │ │ │ ├── Chats.jsx # Saved prompts library │ │ │ └── Settings.jsx # Account settings │ │ ├── services/ │ │ │ └── api.js # Axios instance & API config │ │ ├── App.jsx # Root component with routes │ │ ├── main.jsx # Entry point │ │ ├── index.css # Global styles & Tailwind │ │ └── App.css # App-specific styles │ ├── index.html # HTML template │ ├── tailwind.config.js # Tailwind configuration │ ├── vite.config.js # Vite configuration │ ├── vercel.json # Vercel deployment config │ └── package.json │ ├── server/ # Express backend │ ├── config/ │ │ └── db.js # PostgreSQL pool connection │ ├── controllers/ │ │ ├── authController.js # Register, login, profile, password │ │ └── promptController.js # CRUD operations for prompts │ ├── middleware/ │ │ └── authMiddleware.js # JWT verification middleware │ ├── routes/ │ │ ├── authRoutes.js # Auth endpoints │ │ └── promptRoutes.js # Prompt endpoints │ ├── utils/ │ │ └── groq.js # Groq API integration │ ├── server.js # Express app entry point │ └── package.json │ ├── .gitignore └── README.md
-
-Code
+```
+promptforge/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   ├── components/
+│   │   ├── ChatArea.jsx
+│   │   └── PromptCard.jsx
+│   │   ├── context/
+│   │   ├── layouts/
+│   │   │   └── MainLayout.jsx
+│   │   ├── pages/
+│   │   │   ├── HomePage.jsx
+│   │   │   ├── AuthPage.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Chats.jsx
+│   │   │   └── Settings.jsx
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   ├── index.css
+│   │   └── App.css
+│   ├── index.html
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   ├── vercel.json
+│   └── package.json
+├── server/
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   └── promptController.js
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   └── promptRoutes.js
+│   ├── utils/
+│   │   └── groq.js
+│   ├── server.js
+│   └── package.json
+├── .gitignore
+└── README.md
+```
 
 ---
 
@@ -98,10 +144,13 @@ Code
 ```bash
 git clone https://github.com/farhankhan0986/promptforge.git
 cd promptforge
-2. Set Up the Database
+```
+
+### 2. Set Up the Database
+
 Create the required tables in your PostgreSQL database:
 
-SQL
+```sql
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -119,89 +168,132 @@ CREATE TABLE prompts (
     tags TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-3. Configure the Backend
-bash
+```
+
+### 3. Configure the Backend
+
+```bash
 cd server
 npm install
-Create a .env file in the server/ directory:
+```
 
-env
+Create a `.env` file in the `server/` directory:
+
+```env
 DATABASE_URL=postgresql://username:password@host:5432/database_name
 JWT_SECRET=your_super_secret_jwt_key
 GROQ_API_KEY=gsk_your_groq_api_key_here
 PORT=5000
+```
+
 Start the backend server:
 
-bash
+```bash
 # Development (with hot reload)
 npm run dev
 
 # Production
 npm start
-4. Configure the Frontend
-bash
+```
+
+### 4. Configure the Frontend
+
+```bash
 cd ../client
 npm install
-Note: The frontend API base URL is configured in client/src/services/api.js. Update it to point to your backend server if needed (defaults to your deployed backend or http://localhost:5000/api).
+```
+
+> **Note:** The frontend API base URL is configured in `client/src/services/api.js`. Update it to point to your backend server if needed (defaults to your deployed backend or `http://localhost:5000/api`).
 
 Start the frontend dev server:
 
-bash
+```bash
 npm run dev
-The app will be available at http://localhost:5173
+```
 
-🔌 API Reference
-All API endpoints require JWT authentication (via Authorization: Bearer <token> header) unless noted otherwise.
+The app will be available at `http://localhost:5173`.
 
-Authentication
-Method	Endpoint	Description	Auth Required
-POST	/api/auth/register	Register a new user	❌
-POST	/api/auth/login	Login & receive JWT token	❌
-GET	/api/auth/me	Get current user profile	✅
-PUT	/api/auth/change-password	Change password	✅
-DELETE	/api/auth/delete	Delete user account	✅
-Prompts
-Method	Endpoint	Description	Auth Required
-POST	/api/prompts/generate	Generate an improved prompt via AI	✅
-POST	/api/prompts	Save a prompt	✅
-GET	/api/prompts	Get all saved prompts for the user	✅
-DELETE	/api/prompts/:id	Delete a specific prompt	✅
-DELETE	/api/prompts	Delete all prompts for the user	✅
-Example: Generate a Prompt
-bash
+---
+
+## 🔌 API Reference
+
+All API endpoints require JWT authentication (via `Authorization: Bearer <token>` header) unless noted otherwise.
+
+### Authentication
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|--------------|
+| POST | `/api/auth/register` | Register a new user | ❌ |
+| POST | `/api/auth/login` | Login & receive JWT token | ❌ |
+| GET | `/api/auth/me` | Get current user profile | ✅ |
+| PUT | `/api/auth/change-password` | Change password | ✅ |
+| DELETE | `/api/auth/delete` | Delete user account | ✅ |
+
+### Prompts
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|--------------|
+| POST | `/api/prompts/generate` | Generate an improved prompt via AI | ✅ |
+| POST | `/api/prompts` | Save a prompt | ✅ |
+| GET | `/api/prompts` | Get all saved prompts for the user | ✅ |
+| DELETE | `/api/prompts/:id` | Delete a specific prompt | ✅ |
+| DELETE | `/api/prompts` | Delete all prompts for the user | ✅ |
+
+#### Example: Generate a Prompt
+
+```bash
 curl -X POST http://localhost:5000/api/prompts/generate \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"input": "Write a blog post about machine learning"}'
-🌐 Deployment
-Frontend (Vercel)
-The frontend is configured for Vercel deployment with client/vercel.json for SPA routing:
+```
 
-Connect your GitHub repo to Vercel
-Set the Root Directory to client
-Vite will auto-detect the build settings
-Deploy!
-Backend (Render / Railway / Any Node.js Host)
-Set the Root Directory to server
-Set Build Command to npm install
-Set Start Command to node server.js
-Configure the environment variables (DATABASE_URL, JWT_SECRET, GROQ_API_KEY)
-🤝 Contributing
+---
+
+## 🌐 Deployment
+
+### Frontend (Vercel)
+
+The frontend is configured for Vercel deployment with `client/vercel.json` for SPA routing:
+
+- Connect your GitHub repo to Vercel  
+- Set the Root Directory to `client`  
+- Vite will auto-detect the build settings  
+- Deploy  
+
+### Backend (Render / Railway / Any Node.js Host)
+
+- Set the Root Directory to `server`
+- Set Build Command to `npm install`
+- Set Start Command to `node server.js`
+- Configure the environment variables (`DATABASE_URL`, `JWT_SECRET`, `GROQ_API_KEY`)
+
+---
+
+## 🤝 Contributing
+
 Contributions are welcome! Here's how to get started:
 
-Fork the repository
-Create a feature branch (git checkout -b feature/amazing-feature)
-Commit your changes (git commit -m 'Add amazing feature')
-Push to the branch (git push origin feature/amazing-feature)
-Open a Pull Request
-📄 License
+1. Fork the repository  
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)  
+3. Commit your changes (`git commit -m 'Add amazing feature'`)  
+4. Push to the branch (`git push origin feature/amazing-feature`)  
+5. Open a Pull Request  
+
+---
+
+## 📄 License
+
 This project is open source and available under the ISC License.
 
-👤 Author
-Farhan Abid
+---
 
-GitHub: @farhankhan0986
+## 👤 Author
+
+Farhan Abid  
+
+GitHub: `@farhankhan0986`
+
 <div align="center">
 If you found this project helpful, please consider giving it a ⭐
-
-</div> ```
+</div>
