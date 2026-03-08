@@ -43,25 +43,29 @@ const HomePage = () => {
 
               {/* Typing animation lines */}
               <div className="font-mono text-sm text-textdark/80 space-y-3">
-                <div className="flex">
-                  <span className="text-primary/40 mr-3 select-none">01</span>
-                  <span className="typing-line">
-                    Write a comprehensive guide on
-                  </span>
-                </div>
-                <div className="flex">
-                  <span className="text-primary/40 mr-3 select-none">02</span>
-                  <span className="typing-line-delayed">
-                    building scalable AI systems...
-                  </span>
-                </div>
-                <div className="flex mt-4">
-                  <span className="text-primary/40 mr-3 select-none">03</span>
-                  <span className="text-primary/60 font-mono text-xs">
-                    ▸ enhanced by PromptForge
-                  </span>
-                </div>
-              </div>
+
+  <div className="flex items-start">
+    <span className="w-8 text-primary/40 select-none">01</span>
+    <span className="typing">
+      Write a comprehensive guide on
+    </span>
+  </div>
+
+  <div className="flex items-start">
+    <span className="w-8 text-primary/40 select-none">02</span>
+    <span className="typing delay">
+      building scalable AI systems...
+    </span>
+  </div>
+
+  <div className="flex items-start mt-4">
+    <span className="w-8 text-primary/40 select-none">03</span>
+    <span className="text-primary/60 text-xs">
+      ▸ enhanced by PromptForge
+    </span>
+  </div>
+
+</div>
             </div>
           </div>
         </div>
