@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,6 +24,7 @@ function AuthPage() {
     try {
       const endpoint = isLogin ? "/auth/login" : "/auth/register";
 
+      setLoading(true);
       const { data } = await API.post(endpoint, form);
 
       if (isLogin) {
@@ -34,8 +36,11 @@ function AuthPage() {
       }
     } catch (err) {
       toast.error(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-background text-textdark animate-fade-in">
@@ -90,11 +95,39 @@ function AuthPage() {
             />
           </div>
 
-          <button className="btn-primary w-full mt-2">
-            <span className="font-mono text-xs">
-              {isLogin ? "login →" : "register →"}
-            </span>
-          </button>
+          <button
+  disabled={loading}
+  className="btn-primary w-full mt-2"
+>
+  <span className="font-mono text-xs flex items-center justify-center gap-2">
+    {loading ? (
+      <>
+        <svg
+          className="w-4 h-4 animate-spin"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+          />
+        </svg>
+        {isLogin ? "logging in..." : "registering..."}
+      </>
+    ) : (
+      isLogin ? "login →" : "register →"
+    )}
+  </span>
+</button>
         </form>
 
         <p
