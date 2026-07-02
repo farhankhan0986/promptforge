@@ -71,3 +71,27 @@ export const deleteAllPrompts = async (req, res) => {
     res.status(500).json({ message: "Delete failed" });
   }
 };
+
+export const updatePrompt = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, improved_prompt, category, tags } = req.body;
+    if (!title || !improved_prompt) {
+      return res.status(400).json({ message: "Title and Prompt are required" });
+    }
+    const updated = await pool.query(
+      `UPDATE prompts
+       SET title = $1, improved_prompt = $2, category = $3, tags = $4
+       WHERE id = $5 AND user_id = $6
+       RETURNING *`,
+      [title, improved_prompt, category, tags, id, req.user]
+    );
+    if (updated.rows.length === 0) {
+      return res.status(404).json({ message: "Prompt not found" });
+    }
+    res.json(updated.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating prompt" });
+  }
+};
