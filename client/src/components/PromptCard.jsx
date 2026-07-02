@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Copy, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
-const PromptCard = ({ prompt, deletePrompt }) => {
+const PromptCard = ({ prompt, deletePrompt, onEdit }) => {
   const [expanded, setExpanded] = useState(false);
 
   const PREVIEW_LENGTH = 150;
@@ -23,12 +23,16 @@ const PromptCard = ({ prompt, deletePrompt }) => {
           </h2>
           {/* Metadata in monospaced small type */}
           <div className="flex gap-4 mt-1.5">
-            <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider">
-              {prompt.category}
-            </span>
-            <span className="font-mono text-xs text-primary/60">
-              {prompt.tags}
-            </span>
+            {prompt.category && (
+              <span className="font-mono text-xs text-textdark/50 uppercase tracking-wider">
+                {prompt.category}
+              </span>
+            )}
+            {prompt.tags && (
+              <span className="font-mono text-xs text-primary/60">
+                {prompt.tags}
+              </span>
+            )}
           </div>
         </div>
 
@@ -78,6 +82,16 @@ const PromptCard = ({ prompt, deletePrompt }) => {
           <Copy size={14} />
           <span className="font-mono text-xs">copy</span>
         </button>
+        {onEdit && (
+          <button
+            onClick={() => onEdit(prompt)}
+            className="btn-secondary flex items-center gap-2 py-1.5 px-3"
+            style={{ backgroundColor: "#6D8196" }}
+          >
+            <Pencil size={14} />
+            <span className="font-mono text-xs">edit</span>
+          </button>
+        )}
         <button
           onClick={() => deletePrompt(prompt.id)}
           className="btn-danger flex items-center gap-2 py-1.5 px-3"
